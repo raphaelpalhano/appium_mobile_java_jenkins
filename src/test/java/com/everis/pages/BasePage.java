@@ -50,7 +50,7 @@ import org.sikuli.script.Screen;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
-import com.everis.util.Hook;
+import com.everis.core.Hook;
 import com.everis.util.Utils;
 
 import io.appium.java_client.MobileElement;

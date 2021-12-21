@@ -1,4 +1,4 @@
-package com.everis.util;
+package com.everis.core;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
 
+import com.everis.util.Utils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
@@ -213,12 +214,22 @@ public class Hook extends TestWatcher {
 	
 	public static void openApplicationAndroid(String apk){
 		DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir") + apk);
-		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator_container");
-		//capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "io.appium.android.apis");
-		//capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".ApiDemos");
-		capabilities.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
-		capabilities.setCapability("automationName", "UIAutomator2");
+		if(apk.endsWith(".apk")){
+			capabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir") + apk);
+			capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator_container");
+			//capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "io.appium.android.apis");
+			//capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".ApiDemos");
+			capabilities.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
+			capabilities.setCapability("automationName", "UIAutomator2");
+		}else{
+			capabilities.setCapability("platformName", "Android");
+			capabilities.setCapability("automationName", "uiautomator2");
+			capabilities.setCapability("appPackage", "br.com.amil.beneficiarios");
+			capabilities.setCapability("appActivity", "crc64a96f27a76d70e953.SplashActivity");
+			capabilities.setCapability("platformVersion", "11.0");
+			capabilities.setCapability("deviceName", "R9QN601BP8P");
+		}
+
 		try {
 			driver = new AndroidDriver<MobileElement>(new URL(Utils.getTestProperty("device.url")), capabilities);
 		} catch (MalformedURLException e) {

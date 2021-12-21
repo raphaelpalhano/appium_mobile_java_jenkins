@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.everis.pages.ListaProdutoPage;
 import com.everis.pages.LoginPage;
-import com.everis.util.Hook;
+import com.everis.core.Hook;
 
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.E;
