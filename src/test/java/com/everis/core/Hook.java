@@ -12,9 +12,12 @@ import com.everis.util.Utils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.sikuli.basics.Settings;
 import org.sikuli.script.App;
@@ -44,7 +47,7 @@ public class Hook extends TestWatcher {
 	private static ExtentReports extentReport;
 	private static Scenario scenario;
 	private static ExtentTest extentTest;
-	private static Logger logger = Logger.getLogger(Hook.class);
+	private static final Logger logger = Logger.getLogger(Hook.class);
 	private static String activeAutomation;
 
 	public Hook() {
@@ -87,6 +90,7 @@ public class Hook extends TestWatcher {
 		}
 		
 		System.out.println("Cenario: " + scenario.getName());
+		openApplicationAndroid("");
 	}
 	
 	
@@ -107,6 +111,7 @@ public class Hook extends TestWatcher {
                 			FileUtils.copyFile(new File(ImagePath.find(findFailedImage).getPath()), new File("target/report/html/img/" + findFailedImage));
                 			extentTest.info("FindFailed: " + findFailedImage, MediaEntityBuilder.createScreenCaptureFromPath("img/" + findFailedImage).build());
 						} catch (Exception e) {
+							logger.log(Level.ERROR, "problema em encontrar imagem {hook}");
 						}
     				}
 				}
@@ -216,22 +221,23 @@ public class Hook extends TestWatcher {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		if(apk.endsWith(".apk")){
 			capabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir") + apk);
-			capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator_container");
+			capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
+			capabilities.setCapability("platformName", Platform.ANDROID);
 			//capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "io.appium.android.apis");
 			//capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".ApiDemos");
 			capabilities.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
-			capabilities.setCapability("automationName", "UIAutomator2");
-		}else{
-			capabilities.setCapability("platformName", "Android");
 			capabilities.setCapability("automationName", "uiautomator2");
-			capabilities.setCapability("appPackage", "br.com.amil.beneficiarios");
-			capabilities.setCapability("appActivity", "crc64a96f27a76d70e953.SplashActivity");
-			capabilities.setCapability("platformVersion", "11.0");
-			capabilities.setCapability("deviceName", "R9QN601BP8P");
+		}else{
+			capabilities.setCapability(CapabilityType.BROWSER_NAME, "Chrome");
+			capabilities.setCapability("platformName", "Android");
+			capabilities.setCapability("deviceName", "emulator-5554");
+			capabilities.setCapability(CapabilityType.VERSION, "10");
 		}
 
 		try {
 			driver = new AndroidDriver<MobileElement>(new URL(Utils.getTestProperty("device.url")), capabilities);
+			driver.get("https://dev-smart-hospitality.azurewebsites.net");
+
 		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
 		}

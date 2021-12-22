@@ -26,13 +26,13 @@ public class CadastroMap extends BasePage {
 	
 	@AndroidFindBy(id = "br.com.alura.aluraesporte:id/login_botao_logar")
 	protected MobileElement nomeDoBotaoLogin;
-	
-	
+
+
 	
 	protected MobileElement campoDeTexto(String valorCampo) {
-		By campoTexto = By.id("br.com.alura.aluraesporte:id/"+valorCampo+"");
-		MobileElement campoTextoCadastro = this.driver.findElement(campoTexto);
-		return campoTextoCadastro;
+		By campoTexto = By.id("//input[@name='"+valorCampo+"']");
+		MobileElement elementoText = this.driver.findElement(campoTexto);
+		return elementoText;
 
 	}
 	

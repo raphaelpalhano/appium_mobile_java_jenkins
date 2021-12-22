@@ -9,7 +9,7 @@ import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/features", tags = "@casoTest_1", glue = {"/src/test/java/com/everis"},
+@CucumberOptions(features = "src/test/resources/features", tags = "@Smart", glue = {"com.everis"},
 	monochrome = true, dryRun = false, plugin = { "json:target/cucumber.json", "rerun:target/rerun.txt" })
 public class Runner {
 
