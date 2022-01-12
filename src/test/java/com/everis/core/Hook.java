@@ -236,7 +236,7 @@ public class Hook extends TestWatcher {
 
 		try {
 			driver = new AndroidDriver<MobileElement>(new URL(Utils.getTestProperty("device.url")), capabilities);
-			driver.get("https://dev-smart-hospitality.azurewebsites.net");
+			driver.get("www.google.com");
 
 		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
